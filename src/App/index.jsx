@@ -7,47 +7,33 @@ function App() {
   const [previousNumber, setPreviousNumber] = useState(0);
   const [currentNumber, setCurrentNumber] = useState(0);
   const [result, setResult] = useState(0);
+  const [showResult, setShowResult] = useState(0)
   const [previousOperation, setPreviousOperation] = useState('');
 
-  const calculate = (e) => {
+  const operations = {
+    sum: { account: (prev, current) => { prev + current }, symbol: '+' },
+    subtraction: { account: (prev, current) => { prev - current }, symbol: '-' },
+    multiplication: { account: (prev, current) => { prev * current }, symbol: '*' },
+    division: { account: (prev, current) => { prev / current }, symbol: '/' },
+    percentage: { account: (prev, current) => { (prev * current) / 100 }, symbol: '%' },
+    'changeSign': { account: (prev) => { -prev }, symbol: '(-1)' }
+  }
 
+  const calculate = (e) => {
     const operation = e.target.value;
     const key = e.key;
 
-    if (operation === 'sum' || key == '+') {
-      setResult(previousNumber + currentNumber);
-      setPreviousOperation(`${previousNumber} + ${currentNumber}`);
-      setPreviousNumber(result);
-    }
-
-    if (operation === 'subtraction' || key == '-') {
-      setResult(previousNumber - currentNumber);
-      setPreviousOperation(`${previousNumber} - ${currentNumber}`);
-      setPreviousNumber(result);
-    }
-
-    if (operation === 'multiplication' || key == '*') {
-      setResult(previousNumber * currentNumber);
-      setPreviousOperation(`${previousNumber} * ${currentNumber}`);
-      setPreviousNumber(result);
-    }
-
-    if (operation === 'divide' || key == '/') {
-      setResult(previousNumber / currentNumber);
-      setPreviousOperation(`${previousNumber} / ${currentNumber}`);
-      setPreviousNumber(result);
-    }
-
-    if (operation === 'percentage' || key == '%') {
-      setResult((previousNumber * currentNumber) / 100);
-      setPreviousOperation(`${previousNumber}  ${currentNumber}`);
-      setPreviousNumber(result);
-    }
-
-    if (operation === 'change-sign') {
-      setResult(previousNumber * (-1));
-      setPreviousOperation(`Change sign`);
-      setPreviousNumber(result);
+    if (operations[operation[account]] || operations[key]) {
+      let newResult;
+      if (operation === 'change-sign') {
+        newResult = operations[operation](previousNumber);
+      } else {
+        newResult = operations[operation[account(previousNumber, currentNumber)]];
+      }
+      setResult(newResult);
+      setPreviousNumber(newResult);
+      setCurrentNumber(0);
+      setPreviousOperation(`${previousNumber}${operation[symbol]}${currentNumber}`);
     }
   }
 
@@ -55,15 +41,17 @@ function App() {
     <div>
 
       <span>{previousOperation}</span>
+      <h2>{showResult}</h2>
 
       <input
         type="number"
         value={currentNumber}
-        onChange={(e) => setCurrentNumber(e.this.value)}
+        onChange={(e) => setCurrentNumber(e.target.value)}
       />
 
       <button
-        value='sum'
+        name='plus'
+        value='+'
         onClick={calculate}
         onKeyDown={calculate}
       >
@@ -71,7 +59,8 @@ function App() {
       </button>
 
       <button
-        value='subtraction'
+        name='minus'
+        value='-'
         onClick={calculate}
         onKeyDown={calculate}
       >
@@ -79,7 +68,8 @@ function App() {
       </button>
 
       <button
-        value='multiplication'
+        name='times'
+        value='*'
         onKeyDown={calculate}
         onClick={calculate}
       >
@@ -87,7 +77,8 @@ function App() {
       </button>
 
       <button
-        value='divide'
+        name='division'
+        value='/'
         onKeyDown={calculate}
         onClick={calculate}
       >
@@ -95,7 +86,8 @@ function App() {
       </button>
 
       <button
-        value='percentage'
+        name='percentage'
+        value='%'
         onKeyDown={calculate}
         onClick={calculate}
       >
@@ -103,14 +95,19 @@ function App() {
       </button>
 
       <button
+        name='sign-change'
         value='change-sign'
         onClick={calculate}
       >
         -+
       </button>
 
-      <span>{result}</span>
-
+      <button
+        name='equal'
+        onClick={() => setShowResult(result)}
+      >
+        =
+      </button>
     </div>
   );
 }
