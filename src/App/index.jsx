@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import './style/index.css';
+import './style/css/index.css';
 
 function App() {
 
@@ -38,63 +38,72 @@ function App() {
   }
 
   return (
-    <div>
+    <div
+      className='calculator'
+    >
 
       <span>{previousOperation}</span>
       <h2>{showResult}</h2>
 
       <input
+        className='number-input'
         type="number"
         value={currentNumber}
         onChange={(e) => setCurrentNumber(e.target.value)}
       />
 
       <button
+        className='operation-button'
         name='plus'
         value='+'
         onClick={calculate}
         onKeyDown={calculate}
-      >
+        >
         +
       </button>
 
       <button
+        className='operation-button'
         name='minus'
         value='-'
         onClick={calculate}
         onKeyDown={calculate}
-      >
+        >
         -
       </button>
 
       <button
+        className='operation-button'
         name='times'
         value='*'
         onKeyDown={calculate}
         onClick={calculate}
-      >
+        >
         *
       </button>
 
       <button
+        className='operation-button'
         name='division'
         value='/'
         onKeyDown={calculate}
         onClick={calculate}
-      >
+        >
         /
       </button>
 
       <button
+        className='operation-button'
         name='percentage'
         value='%'
         onKeyDown={calculate}
         onClick={calculate}
-      >
+        >
         %
       </button>
 
       <button
+        className='operation-button'
         name='sign-change'
         value='change-sign'
         onClick={calculate}
@@ -103,9 +112,10 @@ function App() {
       </button>
 
       <button
+        className='operation-button'
         name='equal'
         onClick={() => setShowResult(result)}
-      >
+        >
         =
       </button>
     </div>

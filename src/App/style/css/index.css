@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100vw;
+  height: 100vh;
+}
+.calculator .number-input {
+  text-align: end;
+}
+.calculator .operation-button {
+  width: 2rem;
+  height: 2rem;
+}

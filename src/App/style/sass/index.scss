@@ -1,0 +1,21 @@
+@charset 'utf-8';
+@import '../../../global/style/sass/global.scss';
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100vw;
+  height: 100vh;
+
+  .number-input {
+    text-align: end;
+  }
+
+  .operation-button {
+    width: 2rem;
+    height: 2rem;
+  }
+}
